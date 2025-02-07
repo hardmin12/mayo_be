@@ -1,0 +1,12 @@
+
+oauth:
+  google:
+    client-id: "934204407534-kecanej8riqvq4040lfhhcfb3gl5phid.apps.googleusercontent.com"
+
+  kakao:
+    rest-api-key: "ee5682a9c66e43124e429a369d7f9704"
+    redirect-uri: "http://localhost:8080/api/auth/kakao/callback"
+
+jwt:
+  secret: "n3CmKPHgGmNN2KyAX48KrB3ucCyUbpXQ822QuNCd8jg="
+  algorithm: "HS256"

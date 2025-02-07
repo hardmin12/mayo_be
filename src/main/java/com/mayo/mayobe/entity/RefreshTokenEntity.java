@@ -22,6 +22,9 @@ public class RefreshTokenEntity {
     @Column(nullable = false)
     private LocalDateTime expiryDate;
 
+    // ✅ Hibernate를 위한 기본 생성자 추가
+    public RefreshTokenEntity() {}
+
     public RefreshTokenEntity(SocialUserEntity user, String token, LocalDateTime expiryDate) {
         this.user = user;
         this.token = token;

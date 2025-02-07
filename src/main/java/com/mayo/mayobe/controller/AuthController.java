@@ -27,6 +27,7 @@ public class AuthController {
     //소셜 로그인 API
     @PostMapping("/social-login")
     public ResponseEntity<TokenResponse> socialLogin(@RequestBody SocialLoginRequest request) {
+        System.out.println("소셜 로그인 요청 - provider: " + request.getProvider() + ", idToken: " + request.getIdToken()); // ✅ 로그 출력
         TokenResponse response = oAuthService.socialLogin(request);
         return ResponseEntity.ok(response);
     }
@@ -41,5 +42,13 @@ public class AuthController {
 
         UserProfileResponse response = new UserProfileResponse(user.getEmail(), user.getNickname(), user.getProvider());
         return ResponseEntity.ok(response);
+    }
+
+
+    //카카오 OAuth 로그인 콜백 API
+    @GetMapping("/kakao/callback")
+    public ResponseEntity<String> kakaoCallback(@RequestParam("code") String code) {
+        String accessToken = oAuthService.getKakaoAccessToken(code);
+        return ResponseEntity.ok("카카오 액세스 토큰:" + accessToken);
     }
 }

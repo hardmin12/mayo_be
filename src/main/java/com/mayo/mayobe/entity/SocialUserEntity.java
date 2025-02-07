@@ -28,11 +28,15 @@ public class SocialUserEntity {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    public SocialUserEntity() {
+    }
+
     public SocialUserEntity(String providerId, String email, String nickname, String provider) {
         this.providerId = providerId;
         this.email = email;
         this.nickname = nickname;
         this.provider = provider;
+        this.createdAt = LocalDateTime.now();
     }
 
     public Long getId() {
