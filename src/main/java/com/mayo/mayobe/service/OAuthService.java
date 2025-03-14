@@ -207,7 +207,6 @@ public class OAuthService {
         System.out.println("카카오 Redirect URI: " + kakaoRedirectUri);
         System.out.println("전달된 code 값: " + code);
 
-
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", kakaoClientId);
@@ -218,14 +217,25 @@ public class OAuthService {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Map> response = restTemplate.exchange(tokenUrl,HttpMethod.POST, request, Map.class);
 
+        // 카카오 API 응답 받기
+        ResponseEntity<Map> response = restTemplate.exchange(tokenUrl, HttpMethod.POST, request, Map.class);
+
+        if (response.getBody() == null) {
+            throw new IllegalArgumentException("카카오 API 응답이 비어 있습니다.");
+        }
+
+        // 카카오 응답 데이터 확인
         System.out.println("카카오 응답 데이터: " + response.getBody());
 
-        //카카오에서 받은 Access Token 반환
-        return response.getBody().get("access_token").toString();
+        // 응답에서 access_token을 가져오기
+        String accessToken = (String) response.getBody().get("access_token");
 
+        if (accessToken == null) {
+            throw new IllegalArgumentException("카카오에서 액세스 토큰을 받아올 수 없습니다.");
+        }
 
+        return accessToken;
     }
 
 //    public Map<String, Object> getKakaoUserInfo(String accessToken) {
